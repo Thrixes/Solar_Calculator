@@ -1,0 +1,122 @@
+
+  <body>
+    <header>
+      <a href="#Home">
+        <img src="https://i.etsystatic.com/19450538/r/il/27b9bf/4661367874/il_fullxfull.4661367874_19t4.jpg" alt="Logo">
+      </a>
+      <nav>
+        <ul>
+          <li><a href="#manual-information">Manual Information</a></li>
+          <li><a href="#results">Results</a></li>
+          <li><a href="#enquire">Enquire</a></li>
+          <li><a href="#feedback">Feedback</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section class="manual-information" id="manual-information">
+        <h1>Enter the information of your house/ property to get an idea of how feasible solar power is: </h1>
+        <input type="text" list="cities" placeholder="City, State" id="location-search">
+        <datalist id="cities"> 
+            <!-- List of Cities and States -->
+            <option value="New York, NY, USA">
+              <option value="Los Angeles, CA, USA">
+              <option value="Chicago, IL, USA">
+              <option value="Houston, TX, USA">
+              <option value="Phoenix, AZ, USA">
+              <option value="Boston, MA, USA"></option>
+            </datalist>
+          <div>-------------</div>
+        </section>
+        <section class="results" id="results">
+          <h1>Results Content</h1> 
+          <!-- Flask from .py file -->
+        </section>
+        <section class="enquire" id="enquire">
+          <div>Enquire Content</div>
+          <h1>Enquiry</h1>
+          <h2>Join the bright side!</h2>
+          <h3>Enter your information, and we will connect you with a trusted local solar installation company</h3>
+          
+          <div class="form-container">
+              <form action="#" method="POST" class="contact-form">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="first-name">First Name *</label>
+                    <input type="text" id="first-name" name="first-name" placeholder="" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="last-name">Last Name *</label>
+                    <input type="text" id="last-name" name="last-name" placeholder="" required />
+                  </div>
+                </div>
+        
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="street">Street and House Number *</label>
+                    <input type="text" id="street" name="street" placeholder="" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="city">City *</label>
+                    <input type="text" id="city" name="city" placeholder="" required />
+                  </div>
+                </div>
+        
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="postal-code">Postal Code *</label>
+                    <input type="text" id="postal-code" name="postal-code" placeholder="" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="country">Country *</label>
+                    <input type="text" id="country" name="country" value="United States" readonly />
+                  </div>
+                </div>
+        
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="email">E-mail *</label>
+                    <input type="email" id="email" name="email" placeholder="" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="telephone">Telephone *</label>
+                    <input type="tel" id="telephone" name="telephone" placeholder="" required />
+                  </div>
+                </div>
+        
+                <div class="form-row full-width">
+                  <label for="comment">Comment</label>
+                  <textarea id="comment" name="comment" rows="5" placeholder=""></textarea>
+                </div>
+        
+                <div class="form-row full-width">
+                  <div class="checkbox-group">
+                    <input type="checkbox" id="consent" name="consent" required />
+                    <label for="consent">
+                      I agree that my personal data will be stored digitally in accordance with the regulations. I can revoke my consent at any time.
+                    </label>
+                  </div>
+                </div>
+        
+                <div class="form-row full-width captcha-group">
+                  <label for="captcha">Captcha *</label>
+                  <div class="captcha-wrapper">
+                    <img src="https://via.placeholder.com/150x50?text=Captcha" alt="Captcha" />
+                    <button type="button" class="refresh-captcha">↻</button>
+                  </div>
+                  <input type="text" id="captcha" name="captcha" placeholder="Enter captcha" required />
+                </div>
+        
+                <div class="form-row full-width">
+                  <button type="submit" class="submit-btn">Submit</button>
+                </div>
+              </form>
+            </div>
+  
+          </div>
+        </section>
+        <section class="feedback" id="feedback">
+          <div>Feedback Content</div>
+        </section>
+      </main>
+    </body>
