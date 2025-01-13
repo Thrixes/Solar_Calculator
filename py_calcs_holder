@@ -1,71 +1,49 @@
-import pandas as pd
+from flask import Flask, redirect, url_for, render_template, request
+app = Flask(__name__)
 
-# Reading File
-data_path = "C:/Users/Thaer/OneDrive - Bentley University/Desktop/Entra Projects/Solar_Calculator/US_Peak_Sun_Hours_and_Electricity_Costs_Corrected.csv"
-data = pd.read_csv(data_path)
+@app.route('/')
+def hello_world():
+    return render_template('practice.html')               # Links HTML to Python/Flask
 
-#Collecting User Input
-state = input("Please enter the state your from: ")
-monthly_e_bill = float(input("Please enter your monthly electricity bill ($): "))
+@app.route('/success/<int:score>')
+def success(score):                                       # Seperate HTML file
+    res =''
+    if score >= 49:
+        res = "PASS"
+    else:
+        res = "FAIL"
+    return render_template('result.html', result = res)   # Links HTML to Python/Flask
+    
+@app.route('/fail/<int:score>')
+def fail(score):                                          # Seperate HTML file
+    return "The failing score is 49%, your score is: " + str(score) + "%"
 
-#Isolating State Data
-state_data = data.query("State.str.lower() == @state.lower()")
+# Result checker
+@app.route('/results/<int:marks>')
+def results(marks):
+    if marks < 49:
+        result = "fail"
+    else:
+        result = "success"
+    return redirect(url_for(result, score = marks))
 
-# Ensure state_data is not empty
-if state_data.empty:
-    print(f"State '{state}' not found in the data. Please check the input.")
-else:
-    # Extract kWh cost for the state
-    kWh_cost = state_data["Electricity Cost (USD/kWh)"].iloc[0]
-    # Extract daily peak sun
-    daily_peak_sun = state_data["Average Daily Peak Sun Hours"].iloc[0]
-    # Monthly kWh Consumption
-    kWh_consumption_monthly = monthly_e_bill / kWh_cost
-    # Daily kWh Consumption
-        #Average days in a month = 30.437
-    kWh_consumption_daily = kWh_consumption_monthly/ 30.437
-    print(f"Your estimated monthly kWh consumption is: {kWh_consumption_monthly:.2f}kWh a month")
-    print(f"Your estimated daily kWh consumption is: {kWh_consumption_daily:.2f}kWh a day")
+#'/submit' is the URL for the page
+@app.route('/submit', methods = ['POST', 'GET'])
+def submit():
+    total_score = 0
+    if request.method == "POST":
+        science = float(request.form["science"])
+        maths = float(request.form["maths"])
+        c = float(request.form["C"])
+        data_science = float(request.form["datascience"])
+        total_score = (science + maths + c + data_science)/4
+    res = ''
+    if total_score >=49:
+        res = 'success'
+    else:
+        res = "fail"
+    return redirect(url_for(res, score = total_score))
+    
 
-#Calculate if solar power can make up the kWh difference
-# The average solar panel in the United States produces around 300 watts of power per hour, or 0.3 kWh (kilowatt-hours).
-avg_solar_production = 0.3
-effeciency = 0.2
-solar_irradiance = 1000
-
-    # Daily Output (kWh) = Panel Output x Sun Hours x Efficiency
-output_solar = avg_solar_production * effeciency * daily_peak_sun
-print(f"The total output per 1 panel is: {output_solar:.2f} kWh")
-
-# Ensure output_solar is valid before dividing
-if output_solar > 0:
-    panels_needed = kWh_consumption_daily / output_solar
-    print(f"To cover your daily consumption, you would need approximately {panels_needed:.0f} solar panels.")
-else:
-    print("Solar panel output is insufficient to calculate the number of panels needed. Please check your data.")
-
-#Given the area m^2
-    # Calculate the area of the solar panel
-area_sp = (avg_solar_production)/effeciency * solar_irradiance
-area_given = input("Please enter the total area to install the solar panels you are working with: ")
-solar_covered_number = int(area_given) // int(area_sp)
-
-if solar_covered_number < panels_needed:
-    print("Solar panels would not be enough to sustain the total electricity dependancy. ")
-    '''
-    #print(f"But it can cover {solar_covered_number} of the electricity dependancy") 
-    #This would require math to determine given the amount of area that can be covered by sp, how much of the totla electricity can it contribute to.
-    '''
-else:
-    print("Solar is the right option for you! Solar power can cover your electricity needs and some. ")
-    # Find out how much the person can contribute back to the grid, see if they can get paid for doing so.
-#Two things
-# I) final output calculated based on how many solar panels are reqiured, i give the client the number of clients they would require
-# I) Final output calulculated based on the surface area given, and the client will be given the option if this is feasible or not
-
-#Factors used in Solar Calculator
-# Best One: Google Maps to define the size of the roof
-# Roof Type
-# How many stories the house is
-
-# Enqiuiry Slide - People put in their details for a free inquiry , I take that information, follow up with local solar panel installation companies, and strike a deal on the lead.
+if __name__ == '__main__':
+    app.run(debug = True)
